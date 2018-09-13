@@ -208,7 +208,7 @@
 					@elseif(Auth::guard('web'))
 					<ul class="main_menu">
 							<li>
-								<a href="index.html">{{Auth::user()->first_name}}</a>
+								<a href="#">{{Auth::user()->first_name}}</a>
 								<ul class="sub_menu">
 									<li><a href="index.html">Homepage V1</a></li>
 									<li><a href="home-02.html">Homepage V2</a></li>
@@ -224,7 +224,7 @@
 					@elseif(Auth::guard('admin'))
 					<ul class="main_menu">
 							<li>
-								<a href="index.html">{{Auth::user()->username}}</a>
+								<a href="#">{{Auth::user()->username}}</a>
 								<ul class="sub_menu">
 									<li><a href="index.html">Homepage V1</a></li>
 									<li><a href="home-02.html">Homepage V2</a></li>
