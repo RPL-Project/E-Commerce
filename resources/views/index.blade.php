@@ -87,7 +87,7 @@
 		<!-- Header Icon -->
 		<div class="header-icons">
 			<a href="#" class="header-wrapicon1 dis-block">
-				<img src="images/icons/ecom1.png" class="header-icon1" alt="ICON">
+				<img src="images/icons/icon-header-01.png" class="header-icon1" alt="ICON">
 			</a>
 
 			<span class="linedivide1"></span>
@@ -199,7 +199,7 @@
 
 				<!-- Logo2 -->
 				<a href="index.html" class="logo2">
-					<img src="images/icons/logo.png" alt="IMG-LOGO">
+					<img src="images/icons/ecom1.png" alt="IMG-LOGO">
 				</a>
 
 				<div class="topbar-child2">
