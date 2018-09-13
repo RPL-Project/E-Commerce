@@ -203,15 +203,41 @@
 				</a>
 
 				<div class="topbar-child2">
-					<span class="topbar-email">
-						fashe@example.com
-					</span>
+					@if(Auth::guest())
+					<a href="{{route('login')}}">Login</a>
+					@elseif(Auth::guard('web'))
+					<ul class="main_menu">
+							<li>
+								<a href="index.html">{{Auth::user()->first_name}}</a>
+								<ul class="sub_menu">
+									<li><a href="index.html">Homepage V1</a></li>
+									<li><a href="home-02.html">Homepage V2</a></li>
+									<li><a href="home-03.html">Homepage V3</a></li>
+								</ul>
+							</li>
+					</ul>
 
-					<!--  -->
+					<a href="#" class="header-wrapicon1 dis-block m-l-30">
+						<img src="images/icons/icon-header-01.png" class="header-icon1" alt="ICON">
+					</a>
+					
+					@elseif(Auth::guard('admin'))
+					<ul class="main_menu">
+							<li>
+								<a href="index.html">{{Auth::user()->username}}</a>
+								<ul class="sub_menu">
+									<li><a href="index.html">Homepage V1</a></li>
+									<li><a href="home-02.html">Homepage V2</a></li>
+									<li><a href="home-03.html">Homepage V3</a></li>
+								</ul>
+							</li>
+					</ul>
+
 					<a href="#" class="header-wrapicon1 dis-block m-l-30">
 						<img src="images/icons/icon-header-01.png" class="header-icon1" alt="ICON">
 					</a>
 
+					@endif
 					<span class="linedivide1"></span>
 
 					<div class="header-wrapicon2 m-r-13">
