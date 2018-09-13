@@ -8,8 +8,6 @@
                 <div class="panel-heading">Dashboard</div>
 
                 <div class="panel-body">
-                    @component('component.who')
-                    @endcomponent
                 </div>
             </div>
         </div>
