@@ -65,22 +65,6 @@
                       <th hidden>othDesc</th>
                     </tr>
                   </thead>
-                  <tbody>
-                    @foreach($product as $key)
-                    <tr>
-                      <td>
-                      <div class="btn-group"><button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><i class="fa fa-cog"></i></button><ul class="dropdown-menu" role="menu"><li><a href="#" class="editPrdType" data-id="'+d.product_type_id+'" data-desc="'+d.product_type_desc+'">Edit Data</a></li><li><a href="#" class="deletePrdType" data-id="'+d.product_type_id+'">Delete Data</a></li></ul></div></td>
-                      <td>{{$no++}}</td>
-                      <td>{{$key->product_name}}</td>
-                      <td>{{$key->product_type_desc}}</td>
-                      <td>{{$key->product_price}}</td>
-                      <td>{{$key->product_color}}</td>
-                      <td>{{$key->product_size}}</td>
-                      <td>{{$key->product_desc}}</td>
-                      <td hidden>{{$key->other_product_desc}}</td>
-                    </tr>
-                    @endforeach
-                  </tbody>
                 </table>
                 {{-- </center>  --}}
               </div>
