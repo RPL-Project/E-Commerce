@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Product;
+use DB;
 
 class AdminController extends Controller
 {
@@ -21,8 +23,17 @@ class AdminController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+
     public function index()
     {
-        return view('admin');
+        return view('contents.dashboard');
     }
+
+    protected function strSplit($str)
+    {
+        $postStr = explode(",", $str);
+        return $postStr;
+    }
+
 }

@@ -40,7 +40,7 @@
 	<!-- header fixed -->
 	<div class="wrap_header fixed-header2 trans-0-4">
 		<!-- Logo -->
-		<a href="index.html" class="logo">
+		<a href="#" class="logo">
 			<img src="images/icons/ecom1.png" alt="IMG-LOGO">
 		</a>
 
@@ -48,14 +48,6 @@
 		<div class="wrap_menu">
 			<nav class="menu">
 				<ul class="main_menu">
-					<li>
-						<a href="index.html">Home</a>
-						<ul class="sub_menu">
-							<li><a href="index.html">Homepage V1</a></li>
-							<li><a href="home-02.html">Homepage V2</a></li>
-							<li><a href="home-03.html">Homepage V3</a></li>
-						</ul>
-					</li>
 
 					<li>
 						<a href="product.html">Shop</a>
@@ -67,10 +59,6 @@
 
 					<li>
 						<a href="cart.html">Features</a>
-					</li>
-
-					<li>
-						<a href="blog.html">Blog</a>
 					</li>
 
 					<li>
@@ -86,9 +74,17 @@
 
 		<!-- Header Icon -->
 		<div class="header-icons">
-			<a href="#" class="header-wrapicon1 dis-block">
+			{{-- <a href="#" class="header-wrapicon1 dis-block">
 				<img src="images/icons/icon-header-01.png" class="header-icon1" alt="ICON">
-			</a>
+			</a> --}}
+
+			@if(Auth::guest())
+					<a href="{{route('login')}}">Login</a> - <a href="{{route('register')}}">Register</a>
+			@elseif(Auth::guard('web'))
+					<a href="#" class="header-wrapicon1 dis-block">
+						<img src="images/icons/icon-header-01.png" class="header-icon1" alt="ICON">
+					</a>
+			@endif
 
 			<span class="linedivide1"></span>
 
@@ -189,13 +185,13 @@
 		<!-- Header desktop -->
 		<div class="container-menu-header-v2 p-t-26">
 			<div class="topbar2">
-				<div class="topbar-social">
+				{{-- <div class="topbar-social">
 					<a href="#" class="topbar-social-item fa fa-facebook"></a>
 					<a href="#" class="topbar-social-item fa fa-instagram"></a>
 					<a href="#" class="topbar-social-item fa fa-pinterest-p"></a>
 					<a href="#" class="topbar-social-item fa fa-snapchat-ghost"></a>
 					<a href="#" class="topbar-social-item fa fa-youtube-play"></a>
-				</div>
+				</div> --}}
 
 				<!-- Logo2 -->
 				<a href="index.html" class="logo2">
@@ -204,7 +200,7 @@
 
 				<div class="topbar-child2">
 					@if(Auth::guest())
-					<a href="{{route('login')}}">Login</a>
+					<a href="{{route('login')}}">Login</a> - <a href="{{route('register')}}">Register</a>
 					@elseif(Auth::guard('web'))
 					<ul class="main_menu">
 							<li>
@@ -212,7 +208,13 @@
 								<ul class="sub_menu">
 									<li><a href="index.html">Homepage V1</a></li>
 									<li><a href="home-02.html">Homepage V2</a></li>
-									<li><a href="home-03.html">Homepage V3</a></li>
+									<li><a href="{{ route('user.logout') }}" onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">Logout</a></li>
+
+									<form id="logout-form" action="{{ route('user.logout') }}" method="get" style="display: none;">
+                                            {{ csrf_field() }}
+                                        </form>
+
 								</ul>
 							</li>
 					</ul>
@@ -326,14 +328,6 @@
 				<div class="wrap_menu">
 					<nav class="menu">
 						<ul class="main_menu">
-							<li>
-								<a href="index.html">Home</a>
-								<ul class="sub_menu">
-									<li><a href="index.html">Homepage V1</a></li>
-									<li><a href="home-02.html">Homepage V2</a></li>
-									<li><a href="home-03.html">Homepage V3</a></li>
-								</ul>
-							</li>
 
 							<li>
 								<a href="product.html">Shop</a>
@@ -345,10 +339,6 @@
 
 							<li>
 								<a href="cart.html">Features</a>
-							</li>
-
-							<li>
-								<a href="blog.html">Blog</a>
 							</li>
 
 							<li>
@@ -1626,7 +1616,7 @@
 	</section>
 
 
-	<!-- Banner video -->
+	{{-- <!-- Banner video -->
 	<section class="parallax0 parallax100" style="background-image: url(images/bg-video-01.jpg);">
 		<div class="overlay0 p-t-190 p-b-200">
 			<div class="flex-col-c-m p-l-15 p-r-15">
@@ -1644,7 +1634,7 @@
 				</span>
 			</div>
 		</div>
-	</section>
+	</section> --}}
 
 	<!-- Blog -->
 	<section class="blog bgwhite p-t-94 p-b-65">
