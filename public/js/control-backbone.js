@@ -1,5 +1,55 @@
 $(document).ready(function(){
 
+////////////////////////// AJAX FUNCTION ////////////////////////////
+
+    function refreshPrdType()
+    {
+        $('#productType').find('option').remove().end();
+        $.ajax({
+            url : "/admin/gettype",
+            method : "GET",
+            dataType : "json",
+            success : function (data) {
+                console.log(data);
+                $(data).each(function(){
+                    var option = $("<option/>");
+                    option.attr('value', this.product_type_id).text(this.product_type_desc);
+                    $('#productType').append(option);
+                });
+                console.log();
+            },
+            error : function (){
+                console.log();
+            }
+        });            
+    }
+
+    function getProductDetail(id)
+    {
+        $.ajax({
+            url : "/admin/getproductdetail/"+id,
+            method : "GET",
+            dataType : "json",
+            success : function (data) {
+                console.log();
+                $(data).each(function(){
+                    $('#productName').val(this.product_name);
+                    $('#productType option:selected').text(this.product_type_desc).val(this.product_type_id);
+                    $('#productPrice').val(this.product_price);
+                    $('#productColor').val(this.product_color);
+                    $('#productSize').val(this.product_size);
+                    $('#productDesc').val(this.product_desc);
+                    $('#otherDesc').val(this.other_product_desc);
+                });
+            },
+            error : function () {
+                console.log();
+            }
+        });
+    }
+
+
+
 //////////////////////////// HTML DOM ///////////////////////////
 
 	$(document).on('click', '#productAdd', function(){
@@ -7,23 +57,17 @@ $(document).ready(function(){
         $('.addInput').show();
         $('.modal-title').text('Add New Product');
         $('#btnSave-Product').show().val('addPrd').text("SUBMIT");
-        $('#productForm').attr('action', '/addproduct');
-        alert($('#productForm').attr('action'));
+        $('#productForm').trigger('reset');
         $('#productModal').modal('show');
     });
 
     $(document).on('click', '.editProduct', function(){
-    	$('#ident').val($(this).data('id'));
+        var id = $(this).data('id');
+    	$('#ident').val(id);
         $('.deleteDialog').hide();
         $('.addInput').show();
-        $('#productName').val($(this).data('name'));
-        $('#productType option:selected').text($(this).data('type')).val($(this).data('type-id'));
-        $('#productPrice').val($(this).data('price'));
-        $('#productColor').val($(this).data('color'));
-        $('#productSize').val($(this).data('size'));
-        $('#productDesc').val($(this).data('desc'));
-        $('#otherDesc').val($(this).data('other'));
-        $('.modal-title').text('EDIT DATA');
+        getProductDetail(id);
+        $('.modal-title').text('Edit This Product');
         $('#btnSave-Product').show().text('CONFIRM').val('editPrd');
         $('#productModal').modal('show');
     });
@@ -76,7 +120,7 @@ $(document).ready(function(){
 
 	var TableTypeList = $('#TableTypeList').DataTable({
 		"ajax":"/admin/getTypeList",
-		"lengthMenu":[[25,50,100,-1], [25,50,100,"All"]],
+		"lengthMenu":[[10,25,50,-1], [10,25,50,"All"]],
 		"columnDefs":[{
 			"searchable":false,
 			"orderable":false,
@@ -103,7 +147,7 @@ $(document).ready(function(){
 
     var TableProduct = $('#TableProduct').DataTable({
 		"ajax":"/admin/getProduct",
-		"lengthMenu":[[25,50,100,-1], [25,50,100,"All"]],
+		"lengthMenu":[[10,25,50,-1], [10,25,50,"All"]],
 		"columnDefs":[{
 			"searchable":false,
 			"orderable":false,
@@ -122,6 +166,7 @@ $(document).ready(function(){
 			{"data":"product_name"},
 			{"data":"product_type_desc"},
 			{"data":"product_price"},
+            {"data":"product_qty"},
 			{"data":"product_color"},
 			{"data":"product_size"},
 			{"data":"product_desc"},
@@ -134,7 +179,9 @@ $(document).ready(function(){
         });
     }).draw();
 
-////////////////////////// JQUERY SECTION /////////////////////////
+
+////////////////////////// AJAX SECTION /////////////////////////
+
 
 	$('#btnSave-Product').click(function (e) {
 		$.ajaxSetup({
@@ -254,7 +301,7 @@ $(document).ready(function(){
         			TableTypeList.ajax.reload();
         			$('#productTypeForm').trigger('reset');
         			$('#productTypeModal').modal('hide');
-                    $('#productType').html();
+                    refreshPrdType();
         			toastr.success('Successfully Added Data', 'Success Alert', {timeOut: 5000});
         		},
         		error: function (data) {
@@ -278,6 +325,7 @@ $(document).ready(function(){
         			TableTypeList.ajax.reload();
         			$('#productTypeForm').trigger('reset');
         			$('#productTypeModal').modal('hide');
+                    refreshPrdType();
         			toastr.success('Successfully Edit This Data', 'Success Alert', {timeOut: 5000});
         		},
         		Error: function (data) {
@@ -300,6 +348,7 @@ $(document).ready(function(){
         			TableTypeList.ajax.reload();
         			$('#productTypeForm').trigger('reset');
         			$('#productTypeModal').modal('hide');
+                    refreshPrdType();
         			toastr.success('Successfully Delete This Data', 'Success Alert', {timeOut: 5000});
         		},
         		Error: function (data) {

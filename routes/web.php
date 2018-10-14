@@ -32,6 +32,8 @@ Route::prefix('admin')->group(function(){
 	Route::get('/uicontrol' , 'UIController@showPage')->name('admin.ui-control');
 	Route::get('/getProduct', 'ProductController@retrieveProduct');
 	Route::get('/getTypeList', 'ProductController@getTypeList');
+	Route::get('/gettype', 'ProductController@retrieveType');
+	Route::get('/getproductdetail/{id}', 'ProductController@getProductDetail');
 
 	////////////////////POST//////////////////////////////
 

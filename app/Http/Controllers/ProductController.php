@@ -15,33 +15,53 @@ class ProductController extends AdminController
         $this->middleware('auth:admin');
     }
 
-    private function getPrdType()
+    private function prdType()
     {
         $data = DB::table('product_types')->select('product_types.*')->get();
         return $data;
     }
 
-    private function getProduct(){
+    public function retrieveType()
+    {
+        $data = $this->prdType();
+        return response()->json($data);
+    }
+
+    private function product(){
         $data = Product::join('product_types','product_types.product_type_id', '=', 'products.product_type_id')->get();
+        return $data;
+    }
+
+    private function stock(){
+        $data = DB::table('stocks')->get();
         return $data;
     }
 
     public function showPage()
     {
-        return view('contents.product', ['prdType' => $this->getPrdType(), 'product' => $this->getProduct(), 'no' => '1']);
+        return view('contents.product', ['prdType' => $this->prdType(), 'product' => $this->product(), 'no' => '1']);
     }
 
     public function retrieveProduct()
     {
-    	$reqData = Product::join('product_types','product_types.product_type_id', '=', 'products.product_type_id')->select('products.*', 'product_types.*')->get();
+    	$reqData = Product::join('product_types','product_types.product_type_id', '=', 'products.product_type_id')
+                    ->join('stocks', 'stocks.product_id', '=', 'products.product_id')
+                    ->select('products.*', 'product_types.*', 'stocks.*')
+                    ->get();
         $data = array('data' => $reqData);
         return response()->json($data);
     }
 
     public function getTypeList()
     {
-        $reqData = $this->getPrdType();
+        $reqData = $this->prdType();
         $data = array('data' => $reqData);
+        return response()->json($data);
+    }
+
+    public function getProductDetail($id)
+    {
+        $data = Product::where('product_id', $id)->get();
         return response()->json($data);
     }
 
