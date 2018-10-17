@@ -16,7 +16,7 @@ class CreateProductsTable extends Migration
         Schema::create('product_types', function(Blueprint $table){
             $table->increments('product_type_id');
             $table->string('product_type_desc');
-            $table->timestamps();
+            // $table->timestamps();
         });
 
         Schema::create('products', function (Blueprint $table) {
@@ -39,7 +39,7 @@ class CreateProductsTable extends Migration
             $table->string('file_name');
             $table->string('file_size');
             $table->string('file_type');
-            $table->timestamps();
+            // $table->timestamps();
 
             $table->foreign('product_id')->references('product_id')->on('products')->onUpdate('cascade')->onDelete('cascade');
 

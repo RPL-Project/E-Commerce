@@ -36,6 +36,7 @@ $(document).ready(function(){
                     $('#productName').val(this.product_name);
                     $('#productType option:selected').text(this.product_type_desc).val(this.product_type_id);
                     $('#productPrice').val(this.product_price);
+                    $('#productQty').val(this.product_qty);
                     $('#productColor').val(this.product_color);
                     $('#productSize').val(this.product_size);
                     $('#productDesc').val(this.product_desc);
@@ -111,9 +112,14 @@ $(document).ready(function(){
     $(document).on('click', '#imageAdd', function(){
         $('.deleteDialog').hide();
         $('.addInput').show();
+        $('#productid').val($('#productNameForImage option:selected').val());
         $('.modal-title').text('Add New Product Image');
         $('#btnSave-ProductImage').show().val('addImage').text("SUBMIT");
         $('#productImageModal').modal('show');
+    });
+
+    $(document).on('change', '#productNameForImage', function(){
+        $('#productid').val($('#productNameForImage option:selected').val());
     });
 
 ////////////////////// DATATABLE DOM ////////////////////////////
@@ -179,6 +185,33 @@ $(document).ready(function(){
         });
     }).draw();
 
+    var TableProductImage = $('#TableProductImage').DataTable({
+        "ajax":"/admin/getproductimage",
+        "lengthMenu":[[10,25,50,-1], [10,25,50,"All"]],
+        "columnDefs":[{
+            "searchable":false,
+            "orderable":false,
+            "targets":1,
+        }],
+        "columns":[
+            {bSortable:false,
+                data:null,
+                className: "center",
+                render: function(d){
+                    return '<div class="btn-group"><button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><i class="fa fa-cog"></i></button><ul class="dropdown-menu" role="menu"><li><a href="#" class="editPrdType" data-id="'+d.product_type_id+'" data-desc="'+d.product_type_desc+'">Edit Data</a></li><li><a href="#" class="deletePrdType" data-id="'+d.product_type_id+'">Delete Data</a></li></ul></div>';
+                },},
+            {"data":"product_id"},
+            {"data":"product_name"},
+            {"data":"file_name"},
+        ],
+        "order": [[1, 'desc']],
+    });
+    TableProductImage.on( 'order.dt search.dt', function() {
+        TableProductImage.column(1, {search:"applied", order:"applied"}).nodes().each(function(cell,i){
+            cell.innerHTML = i+1;
+        });
+    }).draw();
+
 
 ////////////////////////// AJAX SECTION /////////////////////////
 
@@ -194,6 +227,7 @@ $(document).ready(function(){
 			prdName : $('#productName').val(),
 			prdType : $('#productType').val(),
 			prdPrice : $('#productPrice').val(),
+            prdQty : $('#productQty').val(),
 			prdColor : $('#productColor').val(),
 			prdSize : $('#productSize').val(),
 			prdDesc : $('#productDesc').val(),
@@ -338,6 +372,7 @@ $(document).ready(function(){
         	var id = $('#ident').val();
         	var type = "DELETE";
         	var my_url = "/admin/deleteprdtype/"+id;
+            e.preventDefault();
         	$.ajax({
         		type: type,
         		url: my_url,

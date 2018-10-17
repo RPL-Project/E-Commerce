@@ -36,6 +36,12 @@
 							</div>
 						</div>
 						<div class="form-group addInput">
+							<label for="productQty" class="col-md-3 control-label addInput">Product Quantity</label>
+							<div class="col-md-4">
+								<input type="text" style="width: 400px;" class="form-control addInput" name="productQty" id="productQty" placeholder="Type Product Quantity...">
+							</div>
+						</div>
+						<div class="form-group addInput">
 							<label for="productColor" class="col-md-3 control-label addInput">Product Color</label>
 							<div class="col-md-4">
 								<input type="text" style="width: 400px;" class="form-control addInput" name="productColor" id="productColor" placeholder="Assign All Color for This Product (separate with [,])">

@@ -30,24 +30,26 @@ Route::prefix('admin')->group(function(){
 	Route::get('/logout', 'Auth\AdminLoginController@adminLogout')->name('admin.logout');
 	Route::get('/product', 'ProductController@showPage')->name('admin.product');
 	Route::get('/uicontrol' , 'UIController@showPage')->name('admin.ui-control');
-	Route::get('/getProduct', 'ProductController@retrieveProduct');
-	Route::get('/getTypeList', 'ProductController@getTypeList');
-	Route::get('/gettype', 'ProductController@retrieveType');
+	Route::get('/getProduct', 'ProductController@showProductTable');
+	Route::get('/getTypeList', 'ProductController@showProductTypeTable');
+	Route::get('/gettype', 'ProductController@getProductType');
 	Route::get('/getproductdetail/{id}', 'ProductController@getProductDetail');
+	Route::get('/getproductimage', 'ImageController@retrieveProductImage');
 
 	////////////////////POST//////////////////////////////
 
 	Route::post('/login', 'Auth\AdminLoginController@login')->name('admin.login.submit');
 	Route::post('/addproduct', 'ProductController@addProduct');
-	Route::post('/addprdtype', 'ProductController@addPrdType');
+	Route::post('/addprdtype', 'ProductController@addProductType');
+	Route::post('/store', 'ImageController@storeProductImages');
 
 	/////////////////////PATCH///////////////////////////////
 
-	Route::patch('/editprdtype/{id}', 'ProductController@editPrdType');
+	Route::patch('/editprdtype/{id}', 'ProductController@editProducType');
 	Route::patch('/editprd/{id}', 'ProductController@editProduct');
 
 	/////////////////////DELETE/////////////////////////////
 
-	Route::delete('/deleteprdtype/{id}', 'ProductController@deletePrdType');
+	Route::delete('/deleteprdtype/{id}', 'ProductController@deleteProductType');
 	Route::delete('/deleteprd/{id}', 'ProductController@deleteProduct');
 });

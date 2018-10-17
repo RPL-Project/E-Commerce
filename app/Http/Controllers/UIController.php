@@ -24,6 +24,6 @@ class UIController extends AdminController
     
     public function showPage()
     {
-        return view('contents.ui-control');
+        return view('contents.admin.ui-control');
     }
 }

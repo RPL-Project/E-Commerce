@@ -27,7 +27,7 @@ class AdminController extends Controller
 
     public function index()
     {
-        return view('contents.dashboard');
+        return view('contents.admin.dashboard');
     }
 
     protected function strSplit($str)

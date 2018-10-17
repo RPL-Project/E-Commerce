@@ -71,6 +71,11 @@
         </select>
       </div>
 
+      <div class="form-group has-feedback {{ $errors->has('phone') ? ' has-error' : '' }}">
+        <input type="number" class="form-control" name="phone" required placeholder="Enter Your Phone Number">
+        <span class="glyphicon glyphicon-phone form-control-feedback"></span>
+      </div>
+
       <div class="row">
         <div class="col-xs-4">
           <button type="submit" class="btn btn-primary btn-block btn-flat">Sign Up</button>

@@ -8,15 +8,34 @@
 				<h4 class="modal-title">Add New Image</h4>
 			</div>
 			<div class="modal-body">
-				<form class="form-horizontal" id="productImageForm" enctype="multipart/form-data">
+				<form class="form-horizontal" action="{{url('/admin/store')}}" method="POST" id="productImageForm" enctype="multipart/form-data">
 				{{csrf_field()}}
 					<div style="text-align: center;">
 								<br>
 								<h5 type="text" class="deleteDialog">Delete Image?</h5>
+
+								<input type="hidden" name="productid" id="productid" value="">
+
 						<div class="form-group addInput">
-							<label for="productTypeDesc" class="col-md-3 control-label addInput">Image</label>
+							<label for="productName" class="col-md-3 control-label addInput">Product</label>
 							<div class="col-md-4">
-								<input type="file" style="width: 400px;" class="form-control addInput" id="productImage" name="image" multiple>
+								<select class="form-control addInput" id="productNameForImage" name="productNameForImage">
+									@foreach($product as $key)
+									<option value="{{$key->product_id}}">{{$key->product_name}}</option>
+									@endforeach
+								</select>
+							</div>
+						</div>
+						<div class="form-group addInput">
+							<label for="productImage" class="col-md-3 control-label addInput">Main Image</label>
+							<div class="col-md-4">
+								<input type="file" style="width: 400px;" class="form-control addInput" id="filemain" name="filemain">
+							</div>
+						</div>
+						<div class="form-group addInput">
+							<label for="productImage" class="col-md-3 control-label addInput">Extra Image</label>
+							<div class="col-md-4">
+								<input type="file" style="width: 400px;" class="form-control addInput" id="filename" name="filename[]" multiple>
 							</div>
 						</div>
 						<div class="form-group">

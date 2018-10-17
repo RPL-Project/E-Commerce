@@ -1636,7 +1636,7 @@
 		</div>
 	</section> --}}
 
-	<!-- Blog -->
+	{{-- <!-- Blog -->
 	<section class="blog bgwhite p-t-94 p-b-65">
 		<div class="container">
 			<div class="sec-title p-b-52">
@@ -1840,7 +1840,7 @@
 				</a>
 			</div>
 		</div>
-	</section>
+	</section> --}}
 
 	<!-- Shipping -->
 	<section class="shipping bgwhite p-t-62 p-b-46">

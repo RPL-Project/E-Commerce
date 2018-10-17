@@ -29,6 +29,7 @@
         <li><a href="{{route('admin.dashboard')}}"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a></li>
         <li><a href="{{route('admin.product')}}"><i class="fa fa-th"></i> <span>Product Management</span></a></li>
         <li><a href="{{route('admin.ui-control')}}"><i class="fa fa-laptop"></i> <span>UI Management</span></a></li>
+        <li><a href="{{route('admin.ui-control')}}"><i class="fa fa-pie-chart"></i> <span>Statistics</span></a></li>
       </ul>
     </section>
     <!-- /.sidebar -->
