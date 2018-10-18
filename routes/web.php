@@ -11,15 +11,19 @@
 |
 */
 
-Route::get('/', function () {
-    return view('index');
-})->name('welcome');
+Route::get('/', 'ViewController@showIndex')->name('welcome');
+Route::get('/cart', 'ViewController@showCart')->name('customer.cart');
 
 Auth::routes();
 
 // Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/users/logout', 'Auth\LoginController@userLogout')->name('user.logout');
+
+Route::prefix('user')->group(function(){
+	//////////////////////////POST////////////////////
+	Route::post('/addtocart', 'CartController@addToCart');
+});
 
 Route::prefix('admin')->group(function(){
 

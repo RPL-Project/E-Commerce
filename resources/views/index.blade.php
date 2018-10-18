@@ -4,6 +4,7 @@
 	<title>Lacommerce</title>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="_token" content="{!! csrf_token() !!}" />
 <!--===============================================================================================-->
 	<link rel="icon" type="image/png" href="images/icons/favicon.png"/>
 <!--===============================================================================================-->
@@ -36,7 +37,10 @@
 <!--===============================================================================================-->
 </head>
 <body class="animsition">
-
+	@if(Auth::guard('web')->check())
+	<input type="hidden" id="customerid" value="{{Auth::guard('web')->User()->id}}">
+	@elseif(Auth::guest())
+	@endif
 	<!-- header fixed -->
 	<div class="wrap_header fixed-header2 trans-0-4">
 		<!-- Logo -->
@@ -88,11 +92,18 @@
 
 			<span class="linedivide1"></span>
 
-			<div class="header-wrapicon2">
-				<img src="images/icons/icon-header-02.png" class="header-icon1 js-show-header-dropdown" alt="ICON">
-				<span class="header-icons-noti">0</span>
+					<div class="header-wrapicon2">
+						@if(Auth::guest())
+						<a href="/login"><img src="images/icons/icon-header-02.png" class="header-icon1 js-show-header-dropdown" alt="ICON">
+						<span class="header-icons-noti">0</span>
+						</a>
+						@elseif(Auth::guard('web'))
+						<a href="/cart"><img src="images/icons/icon-header-02.png" class="header-icon1 js-show-header-dropdown" alt="ICON">
+						<span class="header-icons-noti">0</span>
+						</a>
+						@endif
 
-				<!-- Header cart noti -->
+				{{-- <!-- Header cart noti -->
 				<div class="header-cart header-dropdown">
 					<ul class="header-cart-wrapitem">
 						<li class="header-cart-item">
@@ -163,7 +174,7 @@
 							</a>
 						</div>
 					</div>
-				</div>
+				</div> --}}
 			</div>
 		</div>
 	</div>
@@ -243,10 +254,17 @@
 					<span class="linedivide1"></span>
 
 					<div class="header-wrapicon2 m-r-13">
-						<img src="images/icons/icon-header-02.png" class="header-icon1 js-show-header-dropdown" alt="ICON">
+						@if(Auth::guest())
+						<a href="/login"><img src="images/icons/icon-header-02.png" class="header-icon1 js-show-header-dropdown" alt="ICON">
 						<span class="header-icons-noti">0</span>
+						</a>
+						@elseif(Auth::guard('web'))
+						<a href="/cart"><img src="images/icons/icon-header-02.png" class="header-icon1 js-show-header-dropdown" alt="ICON">
+						<span class="header-icons-noti">0</span>
+						</a>
+						@endif
 
-						<!-- Header cart noti -->
+						{{-- <!-- Header cart noti -->
 						<div class="header-cart header-dropdown">
 							<ul class="header-cart-wrapitem">
 								<li class="header-cart-item">
@@ -317,7 +335,7 @@
 									</a>
 								</div>
 							</div>
-						</div>
+						</div> --}}
 					</div>
 				</div>
 			</div>
@@ -601,14 +619,14 @@
 		</div>
 	</section>
 
-	<!-- Banner -->
+	{{-- <!-- Banner -->
 	<div class="banner bgwhite p-t-40 p-b-40">
 		<div class="container">
 			<div class="row">
 				<div class="col-sm-10 col-md-8 col-lg-4 m-l-r-auto">
 					<!-- block1 -->
 					<div class="block1 hov-img-zoom pos-relative m-b-30">
-						<img src="images/banner-05.jpg" alt="IMG-BENNER">
+						<img src="images/banner-03.jpg" alt="IMG-BENNER">
 
 						<div class="block1-wrapbtn w-size2">
 							<!-- Button -->
@@ -648,7 +666,7 @@
 				</div>
 			</div>
 		</div>
-	</div>
+	</div> --}}
 
 
 	<!-- Our product -->
@@ -683,40 +701,50 @@
 					<!-- - -->
 					<div class="tab-pane fade show active" id="best-seller" role="tabpanel">
 						<div class="row">
+							@foreach($data as $key)
+							@if($key->file_type == "Main")
 							<div class="col-sm-6 col-md-4 col-lg-3 p-b-50">
 								<!-- Block2 -->
 								<div class="block2">
 									<div class="block2-img wrap-pic-w of-hidden pos-relative block2-labelnew">
-										<img src="images/item-02.jpg" alt="IMG-PRODUCT">
+										<img src="{{asset('/images/product/'.$key->file_name)}}" alt="IMG-PRODUCT">
 
 										<div class="block2-overlay trans-0-4">
 											<a href="#" class="block2-btn-addwishlist hov-pointer trans-0-4">
 												<i class="icon-wishlist icon_heart_alt" aria-hidden="true"></i>
 												<i class="icon-wishlist icon_heart dis-none" aria-hidden="true"></i>
 											</a>
-
+											
+											@if(Auth::guest())
+											<div class="block2-btn-addcart w-size1 trans-0-4">
+												<a href="/login" class="flex-c-m size1 bg4 bo-rad-23 hov1 s-text1 trans-0-4">Login</a>
+											</div>
+											@elseif(Auth::guard('web'))
 											<div class="block2-btn-addcart w-size1 trans-0-4">
 												<!-- Button -->
+												<input type="hidden" id="productid" value="{{$key->product_id}}">
 												<button class="flex-c-m size1 bg4 bo-rad-23 hov1 s-text1 trans-0-4">
 													Add to Cart
 												</button>
 											</div>
+											@endif
 										</div>
 									</div>
 
 									<div class="block2-txt p-t-20">
 										<a href="product-detail.html" class="block2-name dis-block s-text3 p-b-5">
-											Herschel supply co 25l
+											{{$key->product_name}}
 										</a>
 
 										<span class="block2-price m-text6 p-r-5">
-											$75.00
+											Rp.{{$key->product_price}}
 										</span>
 									</div>
 								</div>
 							</div>
-
-							<div class="col-sm-6 col-md-4 col-lg-3 p-b-50">
+							@endif
+							@endforeach
+							{{-- <div class="col-sm-6 col-md-4 col-lg-3 p-b-50">
 								<!-- Block2 -->
 								<div class="block2">
 									<div class="block2-img wrap-pic-w of-hidden pos-relative">
@@ -949,7 +977,7 @@
 										</span>
 									</div>
 								</div>
-							</div>
+							</div> --}}
 						</div>
 					</div>
 
@@ -2098,13 +2126,45 @@
 <!--===============================================================================================-->
 	<script type="text/javascript" src="vendor/sweetalert/sweetalert.min.js"></script>
 	<script type="text/javascript">
+		@if(Auth::guest())
+		@elseif(Auth::guard('web'))
 		$('.block2-btn-addcart').each(function(){
+
+			$(this).on('click',function(e){
+				$.ajaxSetup({
+		            headers: {
+		                'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+		            }
+		        })
+		        var formData = { 
+		        	customerid : $('#customerid').val(),
+		        	productid : $(this).parent().find('#productid').val(),
+		        	orderqty : "1",
+		         }
+		        console.log();
+		        	var type = "POST";
+		        	var my_url = "/user/addtocart";
+		        	e.preventDefault();
+		        	$.ajax({
+		        		type: type,
+		        		url: my_url,
+		        		data: formData,
+		        		dataType: 'json',
+		        		success: function (data) {
+		        			console.log(data);
+		        		},
+		        		error: function (data) {
+		        			console.log(data);
+		        		}
+		        	});
+		        });
+
 			var nameProduct = $(this).parent().parent().parent().find('.block2-name').html();
 			$(this).on('click', function(){
 				swal(nameProduct, "is added to cart !", "success");
 			});
 		});
-
+		@endif
 		$('.block2-btn-addwishlist').each(function(){
 			var nameProduct = $(this).parent().parent().parent().find('.block2-name').html();
 			$(this).on('click', function(){

@@ -63,6 +63,18 @@
 		});
 	</script>
 <!--===============================================================================================-->
+	<script type="text/javascript">
+		$(".selection-1").select2({
+			minimumResultsForSearch: 20,
+			dropdownParent: $('#dropDownSelect1')
+		});
+
+		$(".selection-2").select2({
+			minimumResultsForSearch: 20,
+			dropdownParent: $('#dropDownSelect2')
+		});
+	</script>
+<!--===============================================================================================-->
 	<script type="text/javascript" src="{{asset('vendor/slick/slick.min.js')}}"></script>
 	<script type="text/javascript" src="{{asset('js/slick-custom.js')}}"></script>
 <!--===============================================================================================-->

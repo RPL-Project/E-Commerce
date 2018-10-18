@@ -109,17 +109,33 @@ $(document).ready(function(){
 		$('#productTypeModal').modal('show');
 	});
 
-    $(document).on('click', '#imageAdd', function(){
+    $(document).on('click', '#imageAdd', function(e){
+        e.preventDefault();
         $('.deleteDialog').hide();
+        $('.editInput').hide();
         $('.addInput').show();
         $('#productid').val($('#productNameForImage option:selected').val());
+        $('#productname').val($('#productNameForImage option:selected').text());
         $('.modal-title').text('Add New Product Image');
+        $('#productImageForm').attr('action', '/admin/store');
         $('#btnSave-ProductImage').show().val('addImage').text("SUBMIT");
+        $('#productImageModal').modal('show');
+    });
+
+    $(document).on('click', '.editPrdImg', function(e){
+        e.preventDefault();
+        $('#ident').val($(this).data('id'));
+        $('.deleteDialog').hide();
+        $('.addInput').hide();
+        $('.editInput').show();
+        $('#productImageForm').attr('action', '/admin/store');
+        $('#btnSave-ProductImage').show().val('editImage').text("SAVE");
         $('#productImageModal').modal('show');
     });
 
     $(document).on('change', '#productNameForImage', function(){
         $('#productid').val($('#productNameForImage option:selected').val());
+        $('#productname').val($('#productNameForImage option:selected').text());
     });
 
 ////////////////////// DATATABLE DOM ////////////////////////////
@@ -198,7 +214,7 @@ $(document).ready(function(){
                 data:null,
                 className: "center",
                 render: function(d){
-                    return '<div class="btn-group"><button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><i class="fa fa-cog"></i></button><ul class="dropdown-menu" role="menu"><li><a href="#" class="editPrdType" data-id="'+d.product_type_id+'" data-desc="'+d.product_type_desc+'">Edit Data</a></li><li><a href="#" class="deletePrdType" data-id="'+d.product_type_id+'">Delete Data</a></li></ul></div>';
+                    return '<div class="btn-group"><button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><i class="fa fa-cog"></i></button><ul class="dropdown-menu" role="menu"><li><a href="#" class="editPrdImg" data-id="'+d.product_id+'" data-name="'+d.file_name+'">Edit Data</a></li><li><a href="#" class="deletePrdImg" data-id="'+d.product_id+'" data-name="'+d.file_name+'">Delete Data</a></li></ul></div>';
                 },},
             {"data":"product_id"},
             {"data":"product_name"},

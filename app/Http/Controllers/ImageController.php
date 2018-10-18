@@ -18,11 +18,12 @@ class ImageController extends Controller
 		]);
 
 		$id = $req->productid;
+		$prdName = $req->productname;
 
 		if($req->hasFile('filemain'))
 		{
 			$file = $req->file('filemain');
-			$name = $id . "_MAIN_" .$file->getClientOriginalName();
+			$name = $id . "_" . $prdName . "." . $file->getClientOriginalExtension();
 			$store = new Image();
 			$store->product_id = $id;
 			$store->file_name = $name;
@@ -33,9 +34,11 @@ class ImageController extends Controller
 
 		if($req->hasFile('filename'))
 		{
+			$no = 0;
 			foreach($req->file('filename') as $image)
 			{
-				$name = $id . "_EXT_" .$image->getClientOriginalName();
+				$no++;
+				$name = $id . "_" . $no . "_" . $prdName . "_EXT" . "." .$file->getClientOriginalExtension();
 				$store = new Image();
 				$store->product_id = $id;
 				$store->file_name = $name;
@@ -46,6 +49,11 @@ class ImageController extends Controller
 		}
 
 		return back()->with('success', 'Image Has Been Saved');
+	}
+
+	public function editProductImage(Request $req, $id)
+	{
+		
 	}
 
 	public function retrieveProductImage()
