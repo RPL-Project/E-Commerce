@@ -22,14 +22,14 @@ class RedirectIfAuthenticated
             case 'admin':
                 if(Auth::guard($guard)->check())
                 {
-                    return redirect()->route('admin.dashboard');
+                    return redirect()->route('show.admin.dashboard.page');
                 }
                 break;
             
-            default:
+            case 'web':
                 if(Auth::guard($guard)->check())
                 {
-                    return redirect('/home');
+                    return redirect()->route('welcome');
                 }
                 break;
         }

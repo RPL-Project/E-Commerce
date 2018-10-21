@@ -9,4 +9,7 @@ class Banner extends Model
     protected $fillable = [
         'file_name',
     ];
+
+    protected $table = 'banners';
+
 }

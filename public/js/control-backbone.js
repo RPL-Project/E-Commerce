@@ -1,37 +1,127 @@
 $(document).ready(function(){
 
+/////////////////predefined Process//////////////////////////
+    refreshCart();
+
+    refreshPrdName();
+
+    refreshPrdImage();
+
 ////////////////////////// AJAX FUNCTION ////////////////////////////
+
+    function ajaxGet(Url){
+        return $.ajax({
+                    url : Url,
+                    method : 'GET',
+                    dataType : 'json',
+                });
+    }
+
+    function ajaxPatch(Url,FormData){
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+            }
+        })
+        return $.ajax({
+            url : Url,
+            method : "PATCH",
+            data : FormData,
+            dataType : "json",
+        });
+    }
+
+    function refreshPrdImage(){
+        var id = $('#productid').val();
+        ajaxGet('/product/images/'+id).done(function(result){
+            $(result).each(function(){
+                if(this.file_type == "Main"){
+                    $('#prdImages').append(
+                            '<div class="wrap-pic-w">'+
+                                '<img src="/images/product/'+this.file_name+'" alt="IMG-PRODUCT">'+
+                            '</div>');
+                }
+                // else if(this.file_type == "Ext"){
+                //     $('#prdImages').append(
+                //             '<div class="item-slick3" data-thumb="/images/product/'+this.file_name+'">'+
+                //             '<div class="wrap-pic-w">'+
+                //                 '<img src="/images/product/'+this.file_name+'" alt="IMG-PRODUCT">'+
+                //             '</div>'+
+                //         '</div>');
+                // }
+            });
+        }).fail();
+    }
+
+    function refreshPrdName(){
+        $('#productNameForImage').find('option').remove().end();
+        ajaxGet('/admin/product/name/show').done(function(result){
+            console.log(result);
+                $(result).each(function(){
+                    var option = $("<option/>");
+                    option.attr('value', this.product_id).text(this.product_name);
+                    $('#productNameForImage').append(option);
+                });
+        }).fail(function(){
+            // alert('ajaxGet Product Name Failed');
+        });
+    }
+
+    function refreshCart(){
+        var id = $('#customerid').val();
+        ajaxGet("/user/cart/items/show/"+id).done(function(result){
+            console.log(result);
+            $('#table-shopping-cart-body').empty();
+
+                $(result).each(function(){
+                    $('#table-shopping-cart-body').append(
+                        '<tr class="table-row">'+
+                            '<td class="column-1">'+
+                                '<input type="hidden" id="productid" value="'+this.product_id+'">'+
+                                '<div class="cart-img-product b-rad-4 o-f-hidden">'+
+                                    '<img src="/images/product/'+ this.file_name +'" alt="IMG-PRODUCT">'+
+                                '</div>'+
+                            '</td>'+
+                            '<td class="column-2">'+this.product_name+'</td>'+
+                            '<td class="column-3">Rp.'+this.product_price+'</td>'+
+                            '<td class="column-4">'+
+                                '<div class="flex-w bo5 of-hidden w-size17">'+
+                                    '<button class="btn-num-product-down color1 flex-c-m size7 bg8 eff2">'+
+                                        '<i class="fs-12 fa fa-minus" aria-hidden="true"></i>'+
+                                    '</button>'+
+                                    '<input class="size8 m-text18 t-center num-product" type="number" name="num-product1" value="'+this.ordered_qty+'">'+
+                                    '<button class="btn-num-product-up color1 flex-c-m size7 bg8 eff2">'+
+                                        '<i class="fs-12 fa fa-plus" aria-hidden="true"></i>'+
+                                    '</button>'+
+                                '</div>'+
+                            '</td>'+
+                            '<td class="column-5">Rp.<span class="product-total-price">'+(this.product_price * this.ordered_qty)+'</span></td>'+
+                            '</tr>');
+                });
+        }).fail(function(){
+            // alert('ajaxGet Cart Items Failed');
+        });
+    }
 
     function refreshPrdType()
     {
         $('#productType').find('option').remove().end();
-        $.ajax({
-            url : "/admin/gettype",
-            method : "GET",
-            dataType : "json",
-            success : function (data) {
-                console.log(data);
-                $(data).each(function(){
+        ajaxGet("/admin/product/type/show").done(function(result){
+            console.log(result);
+                $(result).each(function(){
                     var option = $("<option/>");
                     option.attr('value', this.product_type_id).text(this.product_type_desc);
                     $('#productType').append(option);
                 });
-                console.log();
-            },
-            error : function (){
-                console.log();
-            }
-        });            
+            }).fail(function(){
+                alert('ajaxGet Product Type Failed');
+            }); 
     }
 
     function getProductDetail(id)
     {
-        $.ajax({
-            url : "/admin/getproductdetail/"+id,
-            method : "GET",
-            dataType : "json",
-            success : function (data) {
-                console.log();
+        ajaxGet("/admin/product/detail/show/"+id).done(function(result){
+            console.log();
                 $(data).each(function(){
                     $('#productName').val(this.product_name);
                     $('#productType option:selected').text(this.product_type_desc).val(this.product_type_id);
@@ -42,6 +132,29 @@ $(document).ready(function(){
                     $('#productDesc').val(this.product_desc);
                     $('#otherDesc').val(this.other_product_desc);
                 });
+            }).fail(function(){
+                alert('ajaxGet getproductdetail Failed');
+            });
+    }
+
+    function removeItemFromCart(id, product)
+    {
+        var formData = {
+            custId : id,
+            prodId : product,
+        }
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+            }
+        })
+        $.ajax({
+            url : "/user/cart/item/delete",
+            method : "DELETE",
+            data : formData,
+            dataType : "json",
+            success : function () {
+                console.log();
             },
             error : function () {
                 console.log();
@@ -50,8 +163,63 @@ $(document).ready(function(){
     }
 
 
-
 //////////////////////////// HTML DOM ///////////////////////////
+
+    $(document).on('click', '.btn-num-product-down', function(e){
+        e.preventDefault();
+        var valInit = $(this).parent('div').find('.num-product').val();
+        if(Number(valInit) > 1){
+            $(this).parent('div').find('.num-product').val(Number(valInit) - 1);
+        }else{}
+
+        var custId = $('#customerid').val();
+        var prodId = $(this).parent('div').parent('td').siblings('td.column-1').find('#productid').val();
+        var formData = {
+            customerid : custId,
+            productid : prodId,
+            orderqty : Number(valInit) - 1,
+        }
+
+        var here = $(this);
+        ajaxPatch("/user/cart/item/edit", formData).done(function(result){
+            $(result).each(function(){
+                if(this.customer_id == custId && this.product_id == prodId){
+                    var totalPrice = this.product_price * this.ordered_qty;
+                    here.parent('div').parent('td').siblings('td.column-5').find('span.product-total-price').text(totalPrice);
+                }
+            });
+        }).fail(function(){
+            
+        });
+
+    });
+
+    $(document).on('click', '.btn-num-product-up', function(e){
+        e.preventDefault();
+        var valInit = $(this).parent('div').find('.num-product').val();
+        $(this).parent('div').find('.num-product').val(Number(valInit) + 1);
+
+        var custId = $('#customerid').val();
+        var prodId = $(this).parent('div').parent('td').siblings('td.column-1').find('#productid').val();
+        var formData = {
+            customerid : custId,
+            productid : prodId,
+            orderqty : Number(valInit) + 1,
+        }
+
+        var here = $(this);
+        ajaxPatch("/user/cart/item/edit", formData).done(function(result){
+            $(result).each(function(){
+                if(this.customer_id == custId && this.product_id == prodId){
+                    var totalPrice = this.product_price * this.ordered_qty;
+                    here.parent('div').parent('td').siblings('td.column-5').find('span.product-total-price').text(totalPrice);
+                }
+            });
+        }).fail(function(){
+            
+        });
+
+    });
 
 	$(document).on('click', '#productAdd', function(){
         $('.deleteDialog').hide();
@@ -117,7 +285,7 @@ $(document).ready(function(){
         $('#productid').val($('#productNameForImage option:selected').val());
         $('#productname').val($('#productNameForImage option:selected').text());
         $('.modal-title').text('Add New Product Image');
-        $('#productImageForm').attr('action', '/admin/store');
+        $('#productImageForm').attr('action', '/admin/product/image/insert');
         $('#btnSave-ProductImage').show().val('addImage').text("SUBMIT");
         $('#productImageModal').modal('show');
     });
@@ -128,7 +296,7 @@ $(document).ready(function(){
         $('.deleteDialog').hide();
         $('.addInput').hide();
         $('.editInput').show();
-        $('#productImageForm').attr('action', '/admin/store');
+        $('#productImageForm').attr('action', '/admin/product/image/insert');
         $('#btnSave-ProductImage').show().val('editImage').text("SAVE");
         $('#productImageModal').modal('show');
     });
@@ -138,10 +306,20 @@ $(document).ready(function(){
         $('#productname').val($('#productNameForImage option:selected').text());
     });
 
+    $(document).on('click', '.o-f-hidden', function(e){
+        e.preventDefault();
+        var customerid = $('#customerid').val();
+        var productid = $('#productid').val();
+        removeItemFromCart(customerid,productid);
+        var itemName = $(this).parent('td').siblings('.column-2').html();
+        swal(itemName, "is removed from cart!", "success");
+        $(this).parent('td').parent('tr').remove();
+    });
+
 ////////////////////// DATATABLE DOM ////////////////////////////
 
 	var TableTypeList = $('#TableTypeList').DataTable({
-		"ajax":"/admin/getTypeList",
+		"ajax":"/admin/product/type/list",
 		"lengthMenu":[[10,25,50,-1], [10,25,50,"All"]],
 		"columnDefs":[{
 			"searchable":false,
@@ -168,7 +346,7 @@ $(document).ready(function(){
 
 
     var TableProduct = $('#TableProduct').DataTable({
-		"ajax":"/admin/getProduct",
+		"ajax":"/admin/product/show",
 		"lengthMenu":[[10,25,50,-1], [10,25,50,"All"]],
 		"columnDefs":[{
 			"searchable":false,
@@ -202,7 +380,7 @@ $(document).ready(function(){
     }).draw();
 
     var TableProductImage = $('#TableProductImage').DataTable({
-        "ajax":"/admin/getproductimage",
+        "ajax":"/admin/product/image/show",
         "lengthMenu":[[10,25,50,-1], [10,25,50,"All"]],
         "columnDefs":[{
             "searchable":false,
@@ -255,7 +433,7 @@ $(document).ready(function(){
 		{
 			case "addPrd" :
 			var type = "POST";
-			var my_url = "/admin/addproduct";
+			var my_url = "/admin/product/insert";
 			e.preventDefault();
 			$.ajax({
 				type: type,
@@ -267,6 +445,7 @@ $(document).ready(function(){
 					TableProduct.ajax.reload();
 					$('#productForm').trigger('reset');
 					$('#productModal').modal('hide');
+                    refreshPrdName();
 					toastr.success('Successfully Added Data', 'Success Alert', {timeOut: 5000});
 				},
 				error: function (data) {
@@ -278,7 +457,7 @@ $(document).ready(function(){
             case "editPrd" :
             var id = $('#ident').val();
             var type = "PATCH";
-            var my_url = "/admin/editprd/"+id;
+            var my_url = "/admin/product/edit/"+id;
             e.preventDefault();
             $.ajax({
                 type: type,
@@ -290,6 +469,7 @@ $(document).ready(function(){
                     TableProduct.ajax.reload();
                     $('#productForm').trigger('reset');
                     $('#productModal').modal('hide');
+                    refreshPrdName();
                     toastr.success('Successfully Edit This Data', 'Success Alert', {timeOut: 5000});
                 },
                 error: function (data) {
@@ -301,7 +481,7 @@ $(document).ready(function(){
             case "deletePrd" :
             var id = $('#ident').val();
             var type = "DELETE";
-            var my_url = "/admin/deleteprd/"+id;
+            var my_url = "/admin/product/delete/"+id;
             e.preventDefault();
             $.ajax({
                 type: type,
@@ -313,6 +493,7 @@ $(document).ready(function(){
                     TableProduct.ajax.reload();
                     $('#productForm').trigger('reset');
                     $('#productModal').modal('hide');
+                    refreshPrdName();
                     toastr.success('Successfully Delete This Data', 'Success Alert', {timeOut: 5000});
                 },
                 error: function (data) {
@@ -339,7 +520,7 @@ $(document).ready(function(){
         {
         	case "addType" :
         	var type = "POST";
-        	var my_url = "/admin/addprdtype";
+        	var my_url = "/admin/product/type/insert";
         	e.preventDefault();
         	$.ajax({
         		type: type,
@@ -363,7 +544,7 @@ $(document).ready(function(){
         	case "editType" :
         	var id = $('#ident').val();
         	var type = "PATCH";
-        	var my_url = "/admin/editprdtype/"+id;
+        	var my_url = "/admin/product/type/edit/"+id;
         	e.preventDefault();
         	$.ajax({
         		type: type,
@@ -387,7 +568,7 @@ $(document).ready(function(){
         	case "deleteType" :
         	var id = $('#ident').val();
         	var type = "DELETE";
-        	var my_url = "/admin/deleteprdtype/"+id;
+        	var my_url = "/admin/product/type/delete/"+id;
             e.preventDefault();
         	$.ajax({
         		type: type,

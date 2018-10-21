@@ -4,42 +4,55 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Product;
+use App\ProductType;
+use App\Stock;
+use App\Image;
 use DB;
 
 class ProductController extends AdminController
 {
-    
-	public function __construct()
-    {
-        $this->middleware('auth:admin');
-    }
 
-    private function retrieveProductType()
+    public function Product()
     {
-        $data = DB::table('product_types')->select('product_types.*')->get();
+        $data = Product::all();
         return $data;
     }
 
-    private function retrieveProduct(){
-        $data = Product::join('product_types','product_types.product_type_id', '=', 'products.product_type_id')->get();
+    public function DataTableProduct()
+    {
+        $reqData = Product::join('product_types','product_types.product_type_id', '=', 'products.product_type_id')
+                    ->join('stocks', 'stocks.product_id', '=', 'products.product_id')
+                    ->select('products.*', 'product_types.*', 'stocks.*')
+                    ->get();
+        $data = array('data' => $reqData);
+        return response()->json($data);
+    }
+
+    public function ProductType()
+    {
+        $data = ProductType::all();
         return $data;
     }
 
-    private function retrieveStock(){
-        $data = DB::table('stocks')->get();
+    public function DataTableProductType()
+    {
+        return array('data' => $this->ProductType());
+    }
+
+    public function Stock(){
+        $data = Stock::all();
         return $data;
     }
 
     public function showPage()
     {
-        return view('contents.admin.product', ['prdType' => $this->retrieveProductType(), 'product' => $this->retrieveProduct(), 'no' => '1']);
+        return view('contents.admin.product', ['prdType' => $this->ProductType(), 'product' => $this->Product(), 'no' => '1']);
     }
-
 
     public function getProductType()
     {
-        $data = $this->retrieveProductType();
-        return response()->json($data);
+        $data = $this->ProductType();
+        return $data;
     }
 
     public function showProductTable()
@@ -54,9 +67,8 @@ class ProductController extends AdminController
 
     public function showProductTypeTable()
     {
-        $reqData = $this->retrieveProductType();
-        $data = array('data' => $reqData);
-        return response()->json($data);
+        $data = $this->ProductType();
+        return $data;
     }
 
     public function getProductDetail($id)
@@ -117,29 +129,28 @@ class ProductController extends AdminController
 
         });
         return response()->json();
-
-        // $data = Product::where('product_id', $id)->join('stocks', 'stocks.product_id', '=', 'products.product_id')->update([
-        //     'product_name' => $req->prdName,
-        //     'product_type_id' => $req->prdType,
-        //     'product_price' => $req->prdPrice,
-        //     'product_qty' => $req->prdQty,
-        //     'product_color' => $req->prdColor,
-        //     'product_size' => $req->prdSize,
-        //     'product_desc' => $req->prdDesc,
-        //     'other_product_desc' => $req->othDesc,
-        // ]);
-        // return response()->json($data);
     }
 
     public function deleteProduct($id)
     {
-        Product::where('product_id', $id)->delete();
+        DB::transaction(function() use ($id){
+
+            $image = $this->imageFileName($id);
+
+            foreach($image as $key){
+                $image_path = '/images/product/'.$key->file_name;
+                unlink(public_path().$image_path);
+            }
+
+            Product::where('product_id', $id)->delete();
+
+        });
         return response()->json();
     }
 
     public function addProductType(Request $req)
     {
-        $preData = $this->strSplit($req->prdTypeDesc);
+        $preData = $this->stringSplit($req->prdTypeDesc);
         foreach ($preData as $key) {
             $data = DB::table('product_types')->insert([
                 'product_type_desc' => $key,

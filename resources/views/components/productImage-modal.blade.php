@@ -22,9 +22,9 @@
 							<label for="productName" class="col-md-3 control-label addInput">Product</label>
 							<div class="col-md-4">
 								<select class="form-control addInput" id="productNameForImage" name="productNameForImage">
-									@foreach($product as $key)
+									{{-- @foreach($product as $key)
 									<option value="{{$key->product_id}}">{{$key->product_name}}</option>
-									@endforeach
+									@endforeach --}}
 								</select>
 							</div>
 						</div>
@@ -42,12 +42,12 @@
 								<input type="file" style="width: 400px;" class="form-control addInput" id="filemain" name="filemain">
 							</div>
 						</div>
-						<div class="form-group addInput">
+						{{-- <div class="form-group addInput">
 							<label for="productImage" class="col-md-3 control-label addInput">Extra Image</label>
 							<div class="col-md-4">
 								<input type="file" style="width: 400px;" class="form-control addInput" id="filename" name="filename[]" multiple>
 							</div>
-						</div>
+						</div> --}}
 						<div class="form-group">
 								<button class="btn btn-default" id="dismiss" data-dismiss="modal">CLOSE</button>
 								<button type="submit" class="btn btn-primary" id="btnSave-ProductImage" value="">SUBMIT</button>

@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Image;
 
-class ImageController extends Controller
+class ImageController extends AdminController
 {
     
 	public function storeProductImages(Request $req)
@@ -32,23 +32,23 @@ class ImageController extends Controller
 			$file->move(public_path() . '/images/product/' , $name);
 		}
 
-		if($req->hasFile('filename'))
-		{
-			$no = 0;
-			foreach($req->file('filename') as $image)
-			{
-				$no++;
-				$name = $id . "_" . $no . "_" . $prdName . "_EXT" . "." .$file->getClientOriginalExtension();
-				$store = new Image();
-				$store->product_id = $id;
-				$store->file_name = $name;
-				$store->file_type = "Ext";
-				$store->save();
-				$image->move(public_path() . '/images/product/' , $name);
-			}
-		}
+		// if($req->hasFile('filename'))
+		// {
+		// 	$no = 0;
+		// 	foreach($req->file('filename') as $image)
+		// 	{
+		// 		$no++;
+		// 		$name = $id . "_" . $no . "_" . $prdName . "_EXT" . "." .$file->getClientOriginalExtension();
+		// 		$store = new Image();
+		// 		$store->product_id = $id;
+		// 		$store->file_name = $name;
+		// 		$store->file_type = "Ext";
+		// 		$store->save();
+		// 		$image->move(public_path() . '/images/product/' , $name);
+		// 	}
+		// }
 
-		return back()->with('success', 'Image Has Been Saved');
+		return back();
 	}
 
 	public function editProductImage(Request $req, $id)
@@ -61,6 +61,16 @@ class ImageController extends Controller
 		$preData = Image::join('products','products.product_id', '=', 'images.product_id')->select('images.*', 'products.*')->get();
 		$data = array('data' => $preData);
 		return response()->json($data);
+	}
+
+	public function deleteProductImage($id)
+	{
+		$image = $this->imageFileName($id);
+
+        $image_path = '/images/product/'.$image->file_name;
+        unlink(public_path().$image_path);
+
+        return response()->json();
 	}
 
 

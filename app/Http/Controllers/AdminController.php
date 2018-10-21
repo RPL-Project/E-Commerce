@@ -3,37 +3,44 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Product;
+use Auth;
+use App\Admin;
 use DB;
 
 class AdminController extends Controller
 {
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
+
     public function __construct()
     {
         $this->middleware('auth:admin');
     }
 
-    /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    protected function loggedAdmin()
+    {
+        if(Auth::guard('admin')->check())
+        {
+            $data = Auth::guard('admin')->user();
+        }
 
+        return $data;
+    }
 
-    public function index()
+    public function showDashboardPage()
     {
         return view('contents.admin.dashboard');
     }
 
-    protected function strSplit($str)
+    protected function stringSplit($str)
     {
         $postStr = explode(",", $str);
         return $postStr;
     }
+
+    protected function imageFileName($id)
+    {
+        $image = DB::table('images')->where('product_id', $id)->get();
+        return $image;
+    }
+
 
 }

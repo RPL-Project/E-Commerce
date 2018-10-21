@@ -54,11 +54,7 @@
 				<ul class="main_menu">
 
 					<li>
-						<a href="product.html">Shop</a>
-					</li>
-
-					<li class="sale-noti">
-						<a href="product.html">Sale</a>
+						<a href="{{route('product')}}">Shop</a>
 					</li>
 
 					<li>
@@ -95,11 +91,9 @@
 					<div class="header-wrapicon2">
 						@if(Auth::guest())
 						<a href="/login"><img src="images/icons/icon-header-02.png" class="header-icon1 js-show-header-dropdown" alt="ICON">
-						<span class="header-icons-noti">0</span>
 						</a>
 						@elseif(Auth::guard('web'))
-						<a href="/cart"><img src="images/icons/icon-header-02.png" class="header-icon1 js-show-header-dropdown" alt="ICON">
-						<span class="header-icons-noti">0</span>
+						<a href="/user/cart"><img src="images/icons/icon-header-02.png" class="header-icon1 js-show-header-dropdown" alt="ICON">
 						</a>
 						@endif
 
@@ -179,18 +173,6 @@
 		</div>
 	</div>
 
-	<!-- top noti -->
-	<div class="flex-c-m size22 bg0 s-text21 pos-relative">
-		20% off everything!
-		<a href="product.html" class="s-text22 hov6 p-l-5">
-			Shop Now
-		</a>
-
-		<button class="flex-c-m pos2 size23 colorwhite eff3 trans-0-4 btn-romove-top-noti">
-			<i class="fa fa-remove fs-13" aria-hidden="true"></i>
-		</button>
-	</div>
-
 	<!-- Header -->
 	<header class="header2">
 		<!-- Header desktop -->
@@ -205,7 +187,7 @@
 				</div> --}}
 
 				<!-- Logo2 -->
-				<a href="index.html" class="logo2">
+				<a href="{{url('/')}}" class="logo2">
 					<img src="images/icons/ecom1.png" alt="IMG-LOGO">
 				</a>
 
@@ -256,11 +238,9 @@
 					<div class="header-wrapicon2 m-r-13">
 						@if(Auth::guest())
 						<a href="/login"><img src="images/icons/icon-header-02.png" class="header-icon1 js-show-header-dropdown" alt="ICON">
-						<span class="header-icons-noti">0</span>
 						</a>
 						@elseif(Auth::guard('web'))
-						<a href="/cart"><img src="images/icons/icon-header-02.png" class="header-icon1 js-show-header-dropdown" alt="ICON">
-						<span class="header-icons-noti">0</span>
+						<a href="/user/cart"><img src="images/icons/icon-header-02.png" class="header-icon1 js-show-header-dropdown" alt="ICON">
 						</a>
 						@endif
 
@@ -348,11 +328,7 @@
 						<ul class="main_menu">
 
 							<li>
-								<a href="product.html">Shop</a>
-							</li>
-
-							<li class="sale-noti">
-								<a href="product.html">Sale</a>
+								<a href="{{route('product')}}">Shop</a>
 							</li>
 
 							<li>
@@ -381,7 +357,7 @@
 		<div class="wrap_header_mobile">
 			<!-- Logo moblie -->
 			<a href="index.html" class="logo-mobile">
-				<img src="images/icons/logo.png" alt="IMG-LOGO">
+				<img src="images/icons/ecom1.png" alt="IMG-LOGO">
 			</a>
 
 			<!-- Button show menu -->
@@ -395,81 +371,13 @@
 					<span class="linedivide2"></span>
 
 					<div class="header-wrapicon2">
-						<img src="images/icons/icon-header-02.png" class="header-icon1 js-show-header-dropdown" alt="ICON">
-						<span class="header-icons-noti">0</span>
-
-						<!-- Header cart noti -->
-						<div class="header-cart header-dropdown">
-							<ul class="header-cart-wrapitem">
-								<li class="header-cart-item">
-									<div class="header-cart-item-img">
-										<img src="images/item-cart-01.jpg" alt="IMG">
-									</div>
-
-									<div class="header-cart-item-txt">
-										<a href="#" class="header-cart-item-name">
-											White Shirt With Pleat Detail Back
-										</a>
-
-										<span class="header-cart-item-info">
-											1 x $19.00
-										</span>
-									</div>
-								</li>
-
-								<li class="header-cart-item">
-									<div class="header-cart-item-img">
-										<img src="images/item-cart-02.jpg" alt="IMG">
-									</div>
-
-									<div class="header-cart-item-txt">
-										<a href="#" class="header-cart-item-name">
-											Converse All Star Hi Black Canvas
-										</a>
-
-										<span class="header-cart-item-info">
-											1 x $39.00
-										</span>
-									</div>
-								</li>
-
-								<li class="header-cart-item">
-									<div class="header-cart-item-img">
-										<img src="images/item-cart-03.jpg" alt="IMG">
-									</div>
-
-									<div class="header-cart-item-txt">
-										<a href="#" class="header-cart-item-name">
-											Nixon Porter Leather Watch In Tan
-										</a>
-
-										<span class="header-cart-item-info">
-											1 x $17.00
-										</span>
-									</div>
-								</li>
-							</ul>
-
-							<div class="header-cart-total">
-								Total: $75.00
-							</div>
-
-							<div class="header-cart-buttons">
-								<div class="header-cart-wrapbtn">
-									<!-- Button -->
-									<a href="cart.html" class="flex-c-m size1 bg1 bo-rad-20 hov1 s-text1 trans-0-4">
-										View Cart
-									</a>
-								</div>
-
-								<div class="header-cart-wrapbtn">
-									<!-- Button -->
-									<a href="#" class="flex-c-m size1 bg1 bo-rad-20 hov1 s-text1 trans-0-4">
-										Check Out
-									</a>
-								</div>
-							</div>
-						</div>
+						@if(Auth::guest())
+						<a href="/login"><img src="images/icons/icon-header-02.png" class="header-icon1 js-show-header-dropdown" alt="ICON">
+						</a>
+						@elseif(Auth::guard('web'))
+						<a href="/user/cart"><img src="images/icons/icon-header-02.png" class="header-icon1 js-show-header-dropdown" alt="ICON">
+						</a>
+						@endif
 					</div>
 				</div>
 
@@ -485,62 +393,18 @@
 		<div class="wrap-side-menu" >
 			<nav class="side-menu">
 				<ul class="main-menu">
-					<li class="item-topbar-mobile p-l-20 p-t-8 p-b-8">
-						<span class="topbar-child1">
-							Free shipping for standard order over $100
-						</span>
-					</li>
 
-					<li class="item-topbar-mobile p-l-20 p-t-8 p-b-8">
-						<div class="topbar-child2-mobile">
-							<span class="topbar-email">
-								fashe@example.com
-							</span>
-
-							<div class="topbar-language rs1-select2">
-								<select class="selection-1" name="time">
-									<option>USD</option>
-									<option>EUR</option>
-								</select>
-							</div>
-						</div>
-					</li>
-
-					<li class="item-topbar-mobile p-l-10">
-						<div class="topbar-social-mobile">
-							<a href="#" class="topbar-social-item fa fa-facebook"></a>
-							<a href="#" class="topbar-social-item fa fa-instagram"></a>
-							<a href="#" class="topbar-social-item fa fa-pinterest-p"></a>
-							<a href="#" class="topbar-social-item fa fa-snapchat-ghost"></a>
-							<a href="#" class="topbar-social-item fa fa-youtube-play"></a>
-						</div>
+					<li class="item-menu-mobile">
+						<a href="{{url('/')}}">Home</a>
 					</li>
 
 					<li class="item-menu-mobile">
-						<a href="index.html">Home</a>
-						<ul class="sub-menu">
-							<li><a href="index.html">Homepage V1</a></li>
-							<li><a href="home-02.html">Homepage V2</a></li>
-							<li><a href="home-03.html">Homepage V3</a></li>
-						</ul>
-						<i class="arrow-main-menu fa fa-angle-right" aria-hidden="true"></i>
-					</li>
-
-					<li class="item-menu-mobile">
-						<a href="product.html">Shop</a>
-					</li>
-
-					<li class="item-menu-mobile">
-						<a href="product.html">Sale</a>
+						<a href="{{route('product')}}">Shop</a>
 					</li>
 
 					<li class="item-menu-mobile">
 						<a href="cart.html">Features</a>
-					</li>
-
-					<li class="item-menu-mobile">
-						<a href="blog.html">Blog</a>
-					</li>
+					</li>x
 
 					<li class="item-menu-mobile">
 						<a href="about.html">About</a>
@@ -558,15 +422,11 @@
 	<section class="slide1">
 		<div class="wrap-slick1">
 			<div class="slick1">
-				<div class="item-slick1 item1-slick1" style="background-image: url(images/master-slide-07.jpg);">
+				<div class="item-slick1 item1-slick1" style="background-image: url({{asset('/images/banner/banner1.jpg')}});">
 					<div class="wrap-content-slide1 sizefull flex-col-c-m p-l-15 p-r-15 p-t-150 p-b-170">
 						<h2 class="caption1-slide1 xl-text2 t-center bo14 p-b-6 animated visible-false m-b-22" data-appear="fadeInUp">
-							Leather Bags
+							<span style="color:black;">Kemudahan Berbelanja</span>
 						</h2>
-
-						<span class="caption2-slide1 m-text1 t-center animated visible-false m-b-33" data-appear="fadeInDown">
-							New Collection 2018
-						</span>
 
 						<div class="wrap-btn-slide1 w-size1 animated visible-false" data-appear="zoomIn">
 							<!-- Button -->
@@ -577,17 +437,13 @@
 					</div>
 				</div>
 
-				<div class="item-slick1 item2-slick1" style="background-image: url(images/master-slide-06.jpg);">
+				<div class="item-slick1 item1-slick1" style="background-image: url({{asset('/images/banner/banner2.png')}});">
 					<div class="wrap-content-slide1 sizefull flex-col-c-m p-l-15 p-r-15 p-t-150 p-b-170">
-						<h2 class="caption1-slide1 xl-text2 t-center bo14 p-b-6 animated visible-false m-b-22" data-appear="rollIn">
-							Leather Bags
+						<h2 class="caption1-slide1 xl-text2 t-center bo14 p-b-6 animated visible-false m-b-22" data-appear="fadeInUp">
+							<span style="color:black;">Apapun Yang Anda Butuhkan</span>
 						</h2>
 
-						<span class="caption2-slide1 m-text1 t-center animated visible-false m-b-33" data-appear="lightSpeedIn">
-							New Collection 2018
-						</span>
-
-						<div class="wrap-btn-slide1 w-size1 animated visible-false" data-appear="slideInUp">
+						<div class="wrap-btn-slide1 w-size1 animated visible-false" data-appear="zoomIn">
 							<!-- Button -->
 							<a href="product.html" class="flex-c-m size2 bo-rad-23 s-text2 bgwhite hov1 trans-0-4">
 								Shop Now
@@ -596,17 +452,13 @@
 					</div>
 				</div>
 
-				<div class="item-slick1 item3-slick1" style="background-image: url(images/master-slide-02.jpg);">
+				<div class="item-slick1 item1-slick1" style="background-image: url({{asset('/images/banner/banner3.png')}});">
 					<div class="wrap-content-slide1 sizefull flex-col-c-m p-l-15 p-r-15 p-t-150 p-b-170">
-						<h2 class="caption1-slide1 xl-text2 t-center bo14 p-b-6 animated visible-false m-b-22" data-appear="rotateInDownLeft">
-							Leather Bags
+						<h2 class="caption1-slide1 xl-text2 t-center bo14 p-b-6 animated visible-false m-b-22" data-appear="fadeInUp">
+							<span style="color:black;">Fitur Lengkap & Berkualitas</span>
 						</h2>
 
-						<span class="caption2-slide1 m-text1 t-center animated visible-false m-b-33" data-appear="rotateInUpRight">
-							New Collection 2018
-						</span>
-
-						<div class="wrap-btn-slide1 w-size1 animated visible-false" data-appear="rotateIn">
+						<div class="wrap-btn-slide1 w-size1 animated visible-false" data-appear="zoomIn">
 							<!-- Button -->
 							<a href="product.html" class="flex-c-m size2 bo-rad-23 s-text2 bgwhite hov1 trans-0-4">
 								Shop Now
@@ -670,7 +522,7 @@
 
 
 	<!-- Our product -->
-	<section class="bgwhite p-t-45 p-b-58">
+	<section class="bgwhite p-t-45 p-b-28">
 		<div class="container">
 			<div class="sec-title p-b-22">
 				<h3 class="m-text5 t-center">
@@ -710,11 +562,6 @@
 										<img src="{{asset('/images/product/'.$key->file_name)}}" alt="IMG-PRODUCT">
 
 										<div class="block2-overlay trans-0-4">
-											<a href="#" class="block2-btn-addwishlist hov-pointer trans-0-4">
-												<i class="icon-wishlist icon_heart_alt" aria-hidden="true"></i>
-												<i class="icon-wishlist icon_heart dis-none" aria-hidden="true"></i>
-											</a>
-											
 											@if(Auth::guest())
 											<div class="block2-btn-addcart w-size1 trans-0-4">
 												<a href="/login" class="flex-c-m size1 bg4 bo-rad-23 hov1 s-text1 trans-0-4">Login</a>
@@ -732,7 +579,7 @@
 									</div>
 
 									<div class="block2-txt p-t-20">
-										<a href="product-detail.html" class="block2-name dis-block s-text3 p-b-5">
+										<a href="{{route('product.detail', $key->product_id)}}" class="block2-name dis-block s-text3 p-b-5">
 											{{$key->product_name}}
 										</a>
 
@@ -1871,7 +1718,7 @@
 	</section> --}}
 
 	<!-- Shipping -->
-	<section class="shipping bgwhite p-t-62 p-b-46">
+	<section class="shipping bgwhite p-t-12 p-b-46">
 		<div class="flex-w p-l-15 p-r-15">
 			<div class="flex-col-c w-size5 p-l-15 p-r-15 p-t-16 p-b-15 respon1">
 				<h4 class="m-text12 t-center">
@@ -2143,7 +1990,7 @@
 		         }
 		        console.log();
 		        	var type = "POST";
-		        	var my_url = "/user/addtocart";
+		        	var my_url = "/user/cart/item/insert";
 		        	e.preventDefault();
 		        	$.ajax({
 		        		type: type,
@@ -2152,6 +1999,7 @@
 		        		dataType: 'json',
 		        		success: function (data) {
 		        			console.log(data);
+		        			$('.prod-qty').val(1)
 		        		},
 		        		error: function (data) {
 		        			console.log(data);
