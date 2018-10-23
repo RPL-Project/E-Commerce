@@ -60,8 +60,6 @@
                       <th>Type</th>
                       <th>Price</th>
                       <th>Qty</th>
-                      <th>Color</th>
-                      <th>Size</th>
                       <th>Desc</th>
                       <th hidden>othDesc</th>
                     </tr>

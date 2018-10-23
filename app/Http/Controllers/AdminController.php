@@ -38,7 +38,9 @@ class AdminController extends Controller
 
     protected function imageFileName($id)
     {
-        $image = DB::table('images')->where('product_id', $id)->get();
+        $image = DB::table('images')
+                ->where('product_id', $id)
+                ->get();
         return $image;
     }
 

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\User;
 use App\Product;
 use App\Cart;
+use App\Order;
 
 class CartController extends Controller
 {
@@ -25,7 +26,7 @@ class CartController extends Controller
     	$data = new Cart();
     	$data->customer_id = $req->customerid;
     	$data->product_id = $req->productid;
-    	$data->ordered_qty = $req->orderqty;
+    	$data->order_qty = $req->orderqty;
     	$data->save();
 
     	return response()->json();
@@ -53,7 +54,7 @@ class CartController extends Controller
     public function updateItemQuantity(Request $req)
     {
         Cart::where('product_id', $req->productid)->where('customer_id', $req->customerid)->update([
-                'ordered_qty' => $req->orderqty,
+                'order_qty' => $req->orderqty,
         ]);
 
         $data = Cart::where('carts.product_id', $req->productid)
@@ -63,6 +64,22 @@ class CartController extends Controller
                 ->get();
 
         return response()->json($data);
+    }
+
+    public function submitCartOrder(Request $req)
+    {
+        $data = new Order();
+        $data->customer_id = $req->custId;
+
+        $id = DB::getPdo()->lastInsertId();
+
+        Cart::where('customer_id', $req->custId)
+            ->where('product_id', $req->prodId)
+            ->update([
+                'order_id' => $id,
+            ]);
+
+        return response()->json();
     }
 
 }

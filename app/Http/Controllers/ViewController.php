@@ -18,6 +18,12 @@ class ViewController extends Controller
         return view('contents.customer.product-detail', ['data' => $data]);
     }
 
+    public function retrieveProductType()
+    {
+    	$data = ProductType::all();
+    	return $data;
+    }
+
     public function ProductImage($id)
     {
     	$data = Image::where('product_id', $id)->get();
@@ -40,7 +46,6 @@ class ViewController extends Controller
 	public function retrieveProductAndImage()
 	{
 		$data = Product::join('images', 'images.product_id', '=', 'products.product_id')
-			->select('images.*', 'products.*')
 			->get();
 		return $data;
 	}
@@ -53,6 +58,11 @@ class ViewController extends Controller
 	public function showProductPage()
 	{
 		return view('contents.customer.product');
+	}
+
+	public function showAboutPage()
+	{
+		return view('contents.customer.about');
 	}
 	
 }

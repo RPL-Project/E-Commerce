@@ -23,11 +23,17 @@
 */
 
 Route::get('/', 'ViewController@showIndexPage')->name('welcome');
+Route::get('/about', 'ViewController@showAboutPage')->name('about');
 
 Route::prefix('product')->group(function(){
+
+	/////////////////////////////// GET ////////////////////////////
 	Route::get('/', 'ViewController@showProductPage')->name('product');
+	Route::get('/get/all', 'ViewController@retrieveProductAndImage');
 	Route::get('/detail/{id}', 'ViewController@ProductDetail')->name('product.detail');
 	Route::get('/images/{id}', 'ViewController@ProductImage');
+	Route::get('/type', 'ViewController@retrieveProductType');
+
 });
 
 Auth::routes();
@@ -92,6 +98,7 @@ Route::prefix('admin')->group(function(){
 	Route::post('/product/insert', 'ProductController@addProduct')->name('insert.product');
 	Route::post('/product/type/insert', 'ProductController@addProductType')->name('insert.product.type');
 	Route::post('/product/image/insert', 'ImageController@storeProductImages')->name('insert.product.image');
+	Route::post('/product/image/delete/{name}', 'ImageController@deleteProductImage')->name('delete.product.image');
 
 	/////////////////////PATCH///////////////////////////////
 

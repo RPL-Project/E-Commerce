@@ -41,7 +41,7 @@
 								<input type="text" style="width: 400px;" class="form-control addInput" name="productQty" id="productQty" placeholder="Type Product Quantity...">
 							</div>
 						</div>
-						<div class="form-group addInput">
+						{{-- <div class="form-group addInput">
 							<label for="productColor" class="col-md-3 control-label addInput">Product Color</label>
 							<div class="col-md-4">
 								<input type="text" style="width: 400px;" class="form-control addInput" name="productColor" id="productColor" placeholder="Assign All Color for This Product (separate with [,])">
@@ -52,7 +52,7 @@
 							<div class="col-md-4">
 								<input type="text" style="width: 400px;" class="form-control addInput" name="productSize" id="productSize" placeholder="Assign All Size for This Product (separate with [,])">
 							</div>
-						</div>
+						</div> --}}
 						<div class="form-group addInput">
 							<label for="productDesc" class="col-md-3 control-label addInput">Description</label>
 							<div class="col-md-4">

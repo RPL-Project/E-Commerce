@@ -29,15 +29,8 @@
 							</div>
 						</div>
 
-						<div class="form-group editInput">
-							<label for="productImage" class="col-md-3 control-label editInput">Image</label>
-							<div class="col-md-4">
-								<input type="file" style="width: 400px;" class="form-control editInput" id="filemain" name="filemain">
-							</div>
-						</div>
-
 						<div class="form-group addInput">
-							<label for="productImage" class="col-md-3 control-label addInput">Main Image</label>
+							<label for="productImage" class="col-md-3 control-label addInput">Image</label>
 							<div class="col-md-4">
 								<input type="file" style="width: 400px;" class="form-control addInput" id="filemain" name="filemain">
 							</div>

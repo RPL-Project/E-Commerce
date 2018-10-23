@@ -13,8 +13,8 @@ class ImageController extends AdminController
 		$this->validate($req, [
 			'filemain' => 'required',
 			'filemain.*' => 'image|mimes:jpeg,jpg,png,gif,svg|max:6144',
-			'filename' => 'required',
-			'filename.*' => 'image|mimes:jpeg,jpg,png,gif,svg|max:6144',
+			// 'filename' => 'required',
+			// 'filename.*' => 'image|mimes:jpeg,jpg,png,gif,svg|max:6144',
 		]);
 
 		$id = $req->productid;
@@ -63,14 +63,15 @@ class ImageController extends AdminController
 		return response()->json($data);
 	}
 
-	public function deleteProductImage($id)
+	public function deleteProductImage($name)
 	{
-		$image = $this->imageFileName($id);
 
-        $image_path = '/images/product/'.$image->file_name;
+		Image::where('file_name', $name)->delete();
+
+        $image_path = '/images/product/'. $name;
         unlink(public_path().$image_path);
 
-        return response()->json();
+        return back();
 	}
 
 

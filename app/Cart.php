@@ -12,6 +12,6 @@ class Cart extends Model
 	protected $guard = 'web';
 
     protected $fillable = [
-        'customer_id', 'product_id', 'ordered_qty', 'order_status', 
+        'customer_id', 'product_id', 'order_id' ,'order_qty', 
     ];
 }

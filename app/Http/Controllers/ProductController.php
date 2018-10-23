@@ -89,8 +89,6 @@ class ProductController extends AdminController
             $data->product_name = $req->prdName;
             $data->product_type_id = $req->prdType;
             $data->product_price = $req->prdPrice;
-            $data->product_color = $req->prdColor;
-            $data->product_size = $req->prdSize;
             $data->product_desc = $req->prdDesc;
             $data->other_product_desc = $req->othDesc;
             $data->save();
@@ -116,8 +114,6 @@ class ProductController extends AdminController
                 'product_name' => $req->prdName,
                 'product_type_id' => $req->prdType,
                 'product_price' => $req->prdPrice,
-                'product_color' => $req->prdColor,
-                'product_size' => $req->prdSize,
                 'product_desc' => $req->prdDesc,
                 'other_product_desc' => $req->othDesc,
 
